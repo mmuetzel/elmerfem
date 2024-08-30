@@ -55,6 +55,13 @@ jobs:
             cc: "clang"
             cxx: "clang++"
             openmp-cmake-flags: "-DWITH_OpenMP=ON -DOpenMP_C_FLAGS=-fopenmp=libgomp -DOpenMP_CXX_FLAGS=-fopenmp=libgomp -DOpenMP_C_LIB_NAMES='gomp;pthread' -DOpenMP_CXX_LIB_NAMES='gomp;pthread'"
+          - compiler: clang
+            compiler-pkgs: "clang"
+            cc: "clang"
+            cxx: "clang++"
+            mpi: with
+            openmp: without
+            openmp-cmake-flags: "-DWITH_OpenMP=OFF"
 
     env:
       CC: ${{ matrix.cc }}
