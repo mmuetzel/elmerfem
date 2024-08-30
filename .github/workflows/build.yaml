@@ -26,7 +26,8 @@ jobs:
       fail-fast: false
 
       matrix:
-        compiler: [gcc, clang]
+#        compiler: [gcc, clang]
+        compiler: [clang]
         mpi: [with]
         openmp: [with]
         include:
@@ -54,6 +55,7 @@ jobs:
             compiler-pkgs: "clang"
             cc: "clang"
             cxx: "clang++"
+            mpi: with
             openmp-cmake-flags: "-DWITH_OpenMP=ON -DOpenMP_C_FLAGS=-fopenmp=libgomp -DOpenMP_CXX_FLAGS=-fopenmp=libgomp -DOpenMP_C_LIB_NAMES='gomp;pthread' -DOpenMP_CXX_LIB_NAMES='gomp;pthread'"
           - compiler: clang
             compiler-pkgs: "clang"
@@ -108,6 +110,13 @@ jobs:
             $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_MPI=ON -DMPI_TEST_MAXPROC=2 -DMPIEXEC_PREFLAGS=--allow-run-as-root" || echo "-DWITH_MPI=OFF") \
             $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_Trilinos=OFF" || echo "-DWITH_Trilinos=OFF") \
             ..
+
+      - name: upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ubuntu-CMakeCache-${{ matrix.compiler }}-${{ matrix.mpi }}-MPI-${{ matrix.openmp }}-OpenMP
+          path: ${{ github.workspace }}/build/CMakeCache.txt
+          retention-days: 7
 
       - name: build
         run: |
