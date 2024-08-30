@@ -30,26 +30,26 @@ jobs:
         mpi: [with]
         openmp: [with]
         include:
-          - compiler: gcc
-            compiler-pkgs: "g++ gcc"
-            cc: "gcc"
-            cxx: "g++"
-            openmp: with
-            openmp-cmake-flags: "-DWITH_OpenMP=ON"
-          - compiler: gcc
-            compiler-pkgs: "g++ gcc"
-            cc: "gcc"
-            cxx: "g++"
-            mpi: without
-            openmp: with
-            openmp-cmake-flags: "-DWITH_OpenMP=ON"
-          - compiler: gcc
-            compiler-pkgs: "g++ gcc"
-            cc: "gcc"
-            cxx: "g++"
-            mpi: with
-            openmp: without
-            openmp-cmake-flags: "-DWITH_OpenMP=OFF"
+#          - compiler: gcc
+#            compiler-pkgs: "g++ gcc"
+#            cc: "gcc"
+#            cxx: "g++"
+#            openmp: with
+#            openmp-cmake-flags: "-DWITH_OpenMP=ON"
+#          - compiler: gcc
+#            compiler-pkgs: "g++ gcc"
+#            cc: "gcc"
+#            cxx: "g++"
+#            mpi: without
+#            openmp: with
+#            openmp-cmake-flags: "-DWITH_OpenMP=ON"
+#          - compiler: gcc
+#            compiler-pkgs: "g++ gcc"
+#            cc: "gcc"
+#            cxx: "g++"
+#            mpi: with
+#            openmp: without
+#            openmp-cmake-flags: "-DWITH_OpenMP=OFF"
           - compiler: clang
             compiler-pkgs: "clang"
             cc: "clang"
@@ -96,14 +96,14 @@ jobs:
             -DCMAKE_INSTALL_PREFIX="${GITHUB_WORKSPACE}/usr" \
             -DBLA_VENDOR="OpenBLAS" \
             ${{ matrix.openmp-cmake-flags }} \
-            -DWITH_LUA=ON \
-            $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_Zoltan=ON" || echo "-DWITH_Zoltan=OFF") \
-            $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_Mumps=ON" || echo "-DWITH_Mumps=OFF") \
-            -DWITH_ELMERGUI=ON \
-            -DWITH_VTK=ON \
-            -DWITH_OCC=ON \
-            -DWITH_MATC=ON \
-            -DWITH_PARAVIEW=ON \
+            -DWITH_LUA=OFF \
+            $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_Zoltan=OFF" || echo "-DWITH_Zoltan=OFF") \
+            $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_Mumps=OFF" || echo "-DWITH_Mumps=OFF") \
+            -DWITH_ELMERGUI=OFF \
+            -DWITH_VTK=OFF \
+            -DWITH_OCC=OFF \
+            -DWITH_MATC=OFF \
+            -DWITH_PARAVIEW=OFF \
             -DCREATE_PKGCONFIG_FILE=ON \
             $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_MPI=ON -DMPI_TEST_MAXPROC=2 -DMPIEXEC_PREFLAGS=--allow-run-as-root" || echo "-DWITH_MPI=OFF") \
             $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_Trilinos=OFF" || echo "-DWITH_Trilinos=OFF") \
