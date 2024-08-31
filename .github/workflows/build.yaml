@@ -135,7 +135,7 @@ jobs:
           CTEST_OUTPUT_ON_FAILURE: 1
         run: |
           cd ${GITHUB_WORKSPACE}/build
-          ctest -L quick -j$(nproc) . | tee ./ctest_output.log
+          set -o pipefail && ctest -L quick -j$(nproc) . | tee ./ctest_output.log
 
       - name: Re-run tests
         if: always() && (steps.run-ctest.outcome == 'failure')
@@ -147,9 +147,9 @@ jobs:
           failed_tests=($(sed -n 's/^.*#[0-9]*\:\s*\(\S*\).*Failed.*/\1/p' ./ctest_output.log))
           # failed_tests=("InductionHeating2" "radiation" "radiation2" "radiation_bin" "radiation_dg" "radiator3d_symm")
           for test in "${failed_tests[@]}"; do
-            echo "::group::Content of ${test}"
-            echo ---- File tree ----
-            tree -d fem/tests/${test}
+            echo "::group::Content of fem/tests/${test}"
+            echo ---- Files ----
+            ls -Rl fem/tests/${test}
             if [ -f fem/tests/${test}/test-stderr*.log ]; then
               echo ---- Content of test-stderr*.log ----
               cat test-stderr*.log
