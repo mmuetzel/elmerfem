@@ -152,11 +152,11 @@ jobs:
             ls -Rl fem/tests/${test}
             if [ -f fem/tests/${test}/test-stderr*.log ]; then
               echo ---- Content of test-stderr*.log ----
-              cat test-stderr*.log
+              cat fem/tests/${test}/test-stderr*.log
             fi
             if [ -f fem/tests/${test}/test-stdout*.log ]; then
               echo ---- Content of test-stdout*.log ----
-              cat test-stdout*.log
+              cat fem/tests/${test}/test-stdout*.log
             fi
             echo "::endgroup::"
           done
