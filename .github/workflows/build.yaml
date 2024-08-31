@@ -144,6 +144,12 @@ jobs:
           CTEST_OUTPUT_ON_FAILURE: 1
         run: |
           cd ${GITHUB_WORKSPACE}/build
+          tests=("InductionHeating2" "radiation" "radiation2" "radiation_bin" "radiation_dg" "radiator3d_symm")
+          for test in "${tests[@]}"; do
+          echo "::group::Content of ${test}"
+          ls fem/tests/${test}
+          echo "::endgroup::"
+          done
           echo "::group::Re-run failing tests"
           ctest --rerun-failed --output-on-failure || true
           echo "::endgroup::"
