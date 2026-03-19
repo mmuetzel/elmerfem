@@ -94,7 +94,8 @@ jobs:
             -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
             -DCMAKE_Fortran_COMPILER=gfortran \
             -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) \
-            -DCMAKE_CXX_FLAGS="-nostdinc++ -isystem $(xcrun --show-sdk-path)/usr/include/c++/v1" \
+            -DCMAKE_MESSAGE_LOG_LEVEL=DEBUG \
+            -DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES="$(xcrun --show-sdk-path)/usr/include/c++/v1" \
             -DCMAKE_EXE_LINKER_FLAGS="-L$(xcrun --show-sdk-path)/usr/lib" \
             -DCMAKE_INSTALL_PREFIX="${GITHUB_WORKSPACE}/usr" \
             -DBLA_VENDOR="OpenBLAS" \
