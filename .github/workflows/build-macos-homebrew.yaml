@@ -78,6 +78,7 @@ jobs:
         # failing on macos-15-intel (Intel CPU) at optimization level `-O3`.
         # They are passing if ElmerFEM is built with optimization level `-O2`.
         run: |
+          export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           unset SDKROOT
           echo "=== COMPILER ID ==="
