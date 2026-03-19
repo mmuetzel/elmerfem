@@ -77,13 +77,18 @@ jobs:
         # failing on macos-15-intel (Intel CPU) at optimization level `-O3`.
         # They are passing if ElmerFEM is built with optimization level `-O2`.
         run: |
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+          unset SDKROOT
           mkdir ${GITHUB_WORKSPACE}/build
           cd ${GITHUB_WORKSPACE}/build
           cmake \
             -DCMAKE_BUILD_TYPE=${{ matrix.os == 'macos-15-intel' && 'RelWithDebInfo' || 'Release' }} \
-            -DCMAKE_C_COMPILER=clang \
-            -DCMAKE_CXX_COMPILER=clang++ \
+            -DCMAKE_C_COMPILER=/usr/bin/clang \
+            -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
             -DCMAKE_Fortran_COMPILER=gfortran \
+            -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path) \
+            -DCMAKE_CXX_FLAGS="-nostdinc++ -isystem $(xcrun --show-sdk-path)/usr/include/c++/v1" \
+            -DCMAKE_EXE_LINKER_FLAGS="-L$(xcrun --show-sdk-path)/usr/lib" \
             -DCMAKE_INSTALL_PREFIX="${GITHUB_WORKSPACE}/usr" \
             -DBLA_VENDOR="OpenBLAS" \
             -DUSE_MACOS_PACKAGE_MANAGER=OFF \
