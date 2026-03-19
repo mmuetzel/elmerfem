@@ -220,7 +220,10 @@ ADD_EXECUTABLE(ElmerGUI WIN32 ${SOURCES} ${UI_HEADERS} ${UI_RESOURCES})
 SET(CPACK_PACKAGE_EXECUTABLES ElmerGUI "ElmerGUI")
 
 IF(WITH_QT6)
-  TARGET_LINK_LIBRARIES(ElmerGUI Qt6::OpenGLWidgets Qt6::Qml Qt6::Xml Qt6::Gui Qt6::Core Qt6::Svg Qt6::Widgets Qt6::PrintSupport Qt6::OpenGLWidgets) 
+  TARGET_LINK_LIBRARIES(ElmerGUI Qt6::OpenGLWidgets Qt6::Qml Qt6::Xml Qt6::Gui Qt6::Core Qt6::Svg Qt6::Widgets Qt6::PrintSupport Qt6::OpenGLWidgets)
+  SET_PROPERTY(TARGET ElmerGUI PROPERTY
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON)
 ELSEIF(WITH_QT5)
   QT5_USE_MODULES(ElmerGUI OpenGL Xml Script Gui Core Svg Widgets PrintSupport)
 ENDIF()
