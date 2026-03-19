@@ -73,12 +73,19 @@ jobs:
       - name: configure
         env:
           LDFLAGS: ${{ matrix.openmp == 'with' && format('-L{0}/opt/libomp/lib -lomp', env.HOMEBREW_PREFIX) || '' }}
+          CXX: /usr/bin/clang++
         # The tests `SD_H1BasisEvaluation` and `SD_LinearFormsAssembly` are
         # failing on macos-15-intel (Intel CPU) at optimization level `-O3`.
         # They are passing if ElmerFEM is built with optimization level `-O2`.
         run: |
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           unset SDKROOT
+          echo "=== COMPILER ID ==="
+          "$CXX" --version || clang++ --version
+          echo "=== RESOURCE DIR ==="
+          "$CXX" -print-resource-dir || true
+          echo "=== __cplusplus with -std=c++17 ==="
+          printf '' | "$CXX" -x c++ -std=c++17 -dM -E - | grep __cplusplus || true
           mkdir ${GITHUB_WORKSPACE}/build
           cd ${GITHUB_WORKSPACE}/build
           cmake \
