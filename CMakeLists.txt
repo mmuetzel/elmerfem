@@ -565,11 +565,12 @@ FIND_PACKAGE(LAPACK REQUIRED)
 SET(CMAKE_REQUIRED_LIBRARIES
   ${CMAKE_REQUIRED_LIBRARIES} ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 
+# Mumps
+IF(WITH_Mumps)
+  FIND_PACKAGE(Mumps REQUIRED)
+ENDIF()
+
 IF(MPI_FOUND)
-  # Mumps
-  IF(WITH_Mumps)
-    FIND_PACKAGE(Mumps REQUIRED)
-  ENDIF()
   # Hypre
   IF(WITH_Hypre)
     FIND_PACKAGE(Hypre REQUIRED OPTIONAL_COMPONENTS Euclid parcsr_ls ParaSails IJ_mv FEI core QUIET)
@@ -841,12 +842,6 @@ IF(WITH_MPI)
   MESSAGE(STATUS "  MPI C libraries:   " "${MPI_C_LIBRARIES}")
   MESSAGE(STATUS "  MPI C flags:       " "${MPI_C_LINK_FLAGS}")
   MESSAGE(STATUS "------------------------------------------------")
-  IF(WITH_Mumps)
-    MESSAGE(STATUS "  Mumps:             " "${Mumps_FOUND}")
-    MESSAGE(STATUS "  Mumps include:     " "${Mumps_INCLUDE_DIR}")
-    MESSAGE(STATUS "  Mumps libraries:   " "${Mumps_LIBRARIES}")
-    MESSAGE(STATUS "------------------------------------------------")
-  ENDIF(WITH_Mumps)
   IF(WITH_Hypre)
     MESSAGE(STATUS "  Hypre:             " "${Hypre_FOUND}")
     MESSAGE(STATUS "  Hypre include:     " "${Hypre_INCLUDE_DIR}")
@@ -854,6 +849,13 @@ IF(WITH_MPI)
     MESSAGE(STATUS "------------------------------------------------")
   ENDIF(WITH_Hypre)
 ENDIF(WITH_MPI)
+
+IF(WITH_Mumps)
+  MESSAGE(STATUS "  Mumps:             " "${Mumps_FOUND}")
+  MESSAGE(STATUS "  Mumps include:     " "${Mumps_INCLUDE_DIR}")
+  MESSAGE(STATUS "  Mumps libraries:   " "${Mumps_LIBRARIES}")
+  MESSAGE(STATUS "------------------------------------------------")
+ENDIF(WITH_Mumps)
 
 IF(WITH_Trilinos)
   MESSAGE(STATUS "  Trilinos:           " "${Trilinos_FOUND}")
