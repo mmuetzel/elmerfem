@@ -26,13 +26,13 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ubuntu-24.04]
+        os: [ubuntu-22.04]
         compiler: [gcc]
         fc: [gfortran]
         mpi: [with]
         openmp: [with]
         include:
-          - os: ubuntu-24.04
+          - os: ubuntu-22.04
             compiler: gcc
             compiler-pkgs: "g++ gcc"
             cc: "gcc"
@@ -40,7 +40,7 @@ jobs:
             mpi: with
             openmp: with
             openmp-cmake-flags: "-DWITH_OpenMP=ON"
-          - os: ubuntu-24.04
+          - os: ubuntu-22.04
             compiler: gcc
             compiler-pkgs: "g++ gcc"
             cc: "gcc"
@@ -48,7 +48,7 @@ jobs:
             mpi: without
             openmp: with
             openmp-cmake-flags: "-DWITH_OpenMP=ON"
-          - os: ubuntu-24.04
+          - os: ubuntu-22.04
             compiler: gcc
             compiler-pkgs: "g++ gcc"
             cc: "gcc"
@@ -64,7 +64,7 @@ jobs:
             mpi: with
             openmp: without
             openmp-cmake-flags: "-DWITH_OpenMP=OFF"
-          - os: ubuntu-24.04
+          - os: ubuntu-22.04
             compiler: clang
             compiler-pkgs: "clang"
             cc: "clang"
@@ -72,7 +72,7 @@ jobs:
             mpi: with
             openmp: without
             openmp-cmake-flags: "-DWITH_OpenMP=OFF"
-          - os: ubuntu-24.04
+          - os: ubuntu-22.04
             compiler: flang
             compiler-pkgs: "clang-20 flang-20"
             cc: "clang-20"
