@@ -26,7 +26,6 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ubuntu-22.04]
         compiler: [gcc]
         fc: [gfortran]
         mpi: [with]
@@ -72,7 +71,7 @@ jobs:
             mpi: with
             openmp: without
             openmp-cmake-flags: "-DWITH_OpenMP=OFF"
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
             compiler: flang
             compiler-pkgs: "clang-20 flang-20"
             cc: "clang-20"
@@ -145,10 +144,10 @@ jobs:
             $([ "${{ matrix.compiler }}" == "gcc" ] && echo "-DWITH_Mumps=ON" || echo "-DWITH_Mumps=OFF") \
             $([ "${{ matrix.compiler }}" == "gcc" ] && echo "-DWITH_CHOLMOD=ON" || echo "-DWITH_CHOLMOD=OFF") \
             $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_Hypre=ON -DHYPRE_INCLUDE_DIR=/usr/include/hypre" || echo "-DWITH_Hypre=OFF") \
-            $([ "${{ matrix.compiler }}" == "gcc" ] && [ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_ROCALUTION=ON" || echo "-DWITH_ROCALUTION=OFF") \
+            $([ "${{ matrix.os }}" != "ubuntu-22.04" ] && [ "${{ matrix.compiler }}" == "gcc" ] && [ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_ROCALUTION=ON" || echo "-DWITH_ROCALUTION=OFF") \
             $([ "${{ matrix.mpi }}" == "with" ] && echo "-DWITH_ElmerIce=ON" || echo "-DWITH_ElmerIce=OFF") \
             -DWITH_ELMERGUI=ON \
-            -DWITH_VTK=ON \
+            $([ "${{ matrix.os }}" != "ubuntu-22.04" ] && echo "-DWITH_VTK=ON" || echo "-DWITH_VTK=OFF") \
             -DWITH_OCC=ON \
             -DWITH_MATC=ON \
             -DWITH_PARAVIEW=ON \
