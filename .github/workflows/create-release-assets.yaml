@@ -50,6 +50,8 @@ jobs:
           git-archive-all "dist/elmerfem-${ref}.tar.gz"
           echo "Creating zip archive..."
           git-archive-all "dist/elmerfem-${ref}.zip"
+          # store ref in file for follow-up workflows
+          echo "${ref}" >> "dist/ref.txt"
 
       # Upload workflow artifacts (if triggered manually)
       - name: Upload .tar.gz as workflow artifact
@@ -97,3 +99,13 @@ jobs:
           files: |
             dist/elmerfem-${{ github.event.inputs.ref || github.event.release.tag_name }}.tar.gz
             dist/elmerfem-${{ github.event.inputs.ref || github.event.release.tag_name }}.zip
+
+      # Upload artifact with name of ref to be used in subsequent workflows
+      # The following steps require that ref is a tag.
+      - name: Upload file with ref of release
+        if: github.event_name == 'release' || github.event.inputs.publish_release == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: elmerfem-release-ref
+          path: dist/ref.txt
+          archive: false
